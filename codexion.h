@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       :::      ::::::::    */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   codexion.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/12 16:41:18 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/12 16:41:18 by flinguen         ###   ########.fr       */
+/*   Created: 2026/05/12 19:14:19 by flinguen          #+#    #+#             */
+/*   Updated: 2026/05/12 19:14:19 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "codexion.h"
+#ifndef CODEXION_H
+# define CODEXION_H
 
-int	main(int argc, char **argv)
-{
-	char	*blah = argv[argc - 1];
+# include "libft/libft.h"
 
-	ft_printf(blah);
-	if (argc != 9)
-	{
-		ft_printf_err("Wrong arguments.\n");
-		usage(1);
-	}
-	return (0);
-}
+// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------ USAGE ---
+/**
+ * @brief
+ * Print the usage message
+ * error = 1 to print in stderr
+ */
+void	usage(int error);
+
+#endif

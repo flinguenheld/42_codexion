@@ -6,6 +6,7 @@ LIBFT_FOLDER = ./libft/
 LIBFT_FILE = $(LIBFT_FOLDER)libft.a
 
 SRC = main.c \
+		usage.c \
 
 all: $(NAME)
 
