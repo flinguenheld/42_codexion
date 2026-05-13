@@ -14,12 +14,15 @@
 
 int	main(int argc, char **argv)
 {
-	char	*blah = argv[argc - 1];
+	t_data	data;
+	int		nb_fail;
 
-	ft_printf(blah);
-	if (argc != 9)
+	ft_printf("-> %d\n", argc);
+	ft_printf("-> %s\n", argv[7]);
+	nb_fail = parse(argc, argv, &data);
+	if (nb_fail > 0)
 	{
-		ft_printf_err("Wrong arguments.\n");
+		ft_printf_err("%d wrong argument(s).\n", nb_fail);
 		usage(1);
 	}
 	return (0);

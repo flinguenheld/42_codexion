@@ -29,8 +29,8 @@ void	usage(int error)
 "      - scheduler: fifo or edf\n"\
 "\n" \
 "examples:\n"\
-"./codexion 20 600 50 50 50 205 fifo\n"\
-"./codexion 4 410 200 100 100 510 edf\n";
+"./codexion 20 600 50 50 50 20 5 fifo\n"\
+"./codexion 4 410 200 100 100 5 10 edf\n";
 	if (error)
 		ft_printf_err(txt);
 	else

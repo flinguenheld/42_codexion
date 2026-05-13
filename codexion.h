@@ -15,6 +15,18 @@
 
 # include "libft/libft.h"
 
+typedef struct s_data
+{
+	int		number_of_coders;
+	int		time_to_burnout;
+	int		time_to_compile;
+	int		time_to_debug;
+	int		time_to_refactor;
+	int		nb_to_do;
+	int		dongle_cooldown;
+	char	scheduler;
+}	t_data;
+
 // ----------------------------------------------------------------------------
 // ------------------------------------------------------------------ USAGE ---
 /**
@@ -23,5 +35,14 @@
  * error = 1 to print in stderr
  */
 void	usage(int error);
+
+// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------ PARSE ---
+/**
+ * @brief
+ * Parse the given arguments to fill data.
+ * @return 0 if ok or the amount of wrong arguments
+ */
+char	parse(int argc, char **argv, t_data *data);
 
 #endif
