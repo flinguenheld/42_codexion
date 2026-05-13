@@ -14,6 +14,17 @@
 # define CODEXION_H
 
 # include "libft/libft.h"
+# include "sys/time.h"
+# include "unistd.h"
+
+enum e_status
+{
+	COMPILE,
+	DEBUG,
+	REFACTOR,
+	COOLDOWN,
+	WAITING,
+};
 
 typedef struct s_data
 {
@@ -26,6 +37,16 @@ typedef struct s_data
 	int		dongle_cooldown;
 	char	scheduler;
 }	t_data;
+
+typedef struct s_coder
+{
+	enum e_status	status;
+	int				remain;
+	int				id;
+}	t_coder;
+
+// Create a struct which regroups structs to feed coders ?
+// Or add a pointer to data in coder ?
 
 // ----------------------------------------------------------------------------
 // ------------------------------------------------------------------ USAGE ---
