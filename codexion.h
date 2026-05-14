@@ -16,12 +16,15 @@
 # include "libft/libft.h"
 # include "sys/time.h"
 # include "unistd.h"
+# include <pthread.h>
+// #include <bits/pthreadtypes.h>
+# include <stdio.h>
 
 enum e_status
 {
-	COMPILE,
-	DEBUG,
-	REFACTOR,
+	COMPILING,
+	DEBUGGING,
+	REFACTORING,
 	COOLDOWN,
 	WAITING,
 };
@@ -42,14 +45,35 @@ typedef struct s_coder
 {
 	enum e_status	status;
 	int				remain;
-	int				id;
+	pthread_t		thread;
+	t_data			*data;
+	t_list			*to_print;
 }	t_coder;
+
+typedef struct s_codexion
+{
+	t_coder	*coders;
+	t_list	*to_print;
+}	t_codexion;
 
 // Create a struct which regroups structs to feed coders ?
 // Or add a pointer to data in coder ?
 
 // ----------------------------------------------------------------------------
+// --------------------------------------------------------------- CODEXION ---
+/**
+ * @brief
+ */
+t_codexion	init_codexion(t_data data);
+
+/**
+ * @brief
+ */
+void	close_codexion(t_data data, t_codexion codexion);
+
+// ----------------------------------------------------------------------------
 // ------------------------------------------------------------------ USAGE ---
+
 /**
  * @brief
  * Print the usage message
@@ -59,6 +83,7 @@ void	usage(int error);
 
 // ----------------------------------------------------------------------------
 // ------------------------------------------------------------------ PARSE ---
+
 /**
  * @brief
  * Parse the given arguments to fill data.

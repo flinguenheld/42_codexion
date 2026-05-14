@@ -7,6 +7,7 @@ LIBFT_FILE = $(LIBFT_FOLDER)libft.a
 
 SRC = main.c \
 		usage.c \
+		codexion.c \
 		parser/parser.c \
 
 all: $(NAME)
@@ -21,7 +22,7 @@ libft:
 
 debug: CFLAGS = -DDEBUG
 debug: all
-	./$(NAME) 20 600 50 50 50 20 5 fifo
+	./$(NAME) 3 600 50 50 50 20 5 fifo
 
 clean:
 	@rm -f $(OBJS)

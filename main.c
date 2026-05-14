@@ -11,53 +11,20 @@
 /* ************************************************************************** */
 
 #include "codexion.h"
+#include <unistd.h>
 
-void	simulate_process(int time_ms)
-{
 
-	usleep(time_ms * 1000);
-}
+// void	printer_manager(void *blah)
+// {
 
-void	coder_process(void *d)
-{
-	t_data	*data;
-	int		time;
+// }
 
-	data = (t_data *)d;
-	// Block the mutex
-
-	// Loop as long as Active
-
-		// Up status
-		usleep(data->time_to_compile * 1000);
-		// Print '1 1 is compiling'
-		// Still active ?? (is it enough or more rigorous ?)
-
-		// Up status
-		// Print '201 1 is debugging'
-		// Still active ??
-
-		// Up status
-		// Print '401 1 is refactoring'
-		// Still active ??
-
-		// Up status
-		// Not print 'cool down'
-		// Still active ??
-
-		// Up status
-	// Free the mutex
-}
-
-void	printer_manager(void *blah)
-{
-
-}
 
 int	main(int argc, char **argv)
 {
 	t_data	data;
 	int		nb_fail;
+	t_codexion	codexion;
 
 	ft_printf("-> %d\n", argc);
 	ft_printf("-> %s\n", argv[7]);
@@ -66,13 +33,16 @@ int	main(int argc, char **argv)
 	{
 		ft_printf_err("%d wrong argument(s).\n", nb_fail);
 		usage(1);
+		return (1);
 	}
 
-	// Create an array of n threads
+	codexion = init_codexion(data);
 
-	// Create an array of n dongles
 
 	// Create the manager
+	usleep(5 * 100000);
+
+	close_codexion(data, codexion);
 
 	return (0);
 }
