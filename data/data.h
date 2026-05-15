@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 15:19:38 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/15 17:43:32 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/15 23:17:17 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 typedef struct s_data
 {
 	char			scheduler;
-	int				time_to_debug;
-	int				time_to_burnout;
-	int				time_to_compile;
-	int				time_to_refactor;
-	int				dongle_cooldown;
+	int				time_debug;
+	int				time_burnout;
+	int				time_compile;
+	int				time_refact;
+	int				time_cooldown;
 	int				nb_to_do;
 	int				nb_coders;
-	int				timestamp_start;
+	long			timestamp_start;
 }	t_data;
 
 #endif

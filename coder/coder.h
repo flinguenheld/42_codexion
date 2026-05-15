@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 14:45:30 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/15 17:43:32 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/15 23:11:36 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,17 @@ enum e_coder_status
 	DEBUGGING,
 	COOLDOWN,
 	WAITING,
+	BURNOUT,
+	KILLED,
+	START,
 };
 
 typedef struct s_coder
 {
 	enum e_coder_status	status;
+	int					id;
 	int					remain;
-	int					sleeping_start;
+	long				timestamp_start;
 	pthread_t			thread;
 	t_data				*data;
 	pthread_mutex_t		*mutex;
@@ -45,7 +49,7 @@ typedef struct s_coder
 /**
  * @brief
  */
-t_coder	*new_coder(t_data *data, pthread_mutex_t *mutex);
+t_coder	*new_coder(t_data *data, pthread_mutex_t *mutex, int id);
 
 /**
  * @brief

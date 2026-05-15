@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 16:41:18 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/15 15:55:31 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/15 23:11:36 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@ int	main(int argc, char **argv)
 	}
 
 	codexion = init_codexion(data);
-	printf("hello\n");
-	printf("hello\n");
-	printf("hello\n");
-	printf("hello\n");
 
 	
 	// printf("MAIN \n\n");
