@@ -4,6 +4,7 @@ CFLAGS = -Wall -Wextra -Werror
 NAME = codexion
 
 SRC = main.c \
+		utils/utils.c \
 		coder/coder.c \
 		parser/parser.c \
 		usage.c \

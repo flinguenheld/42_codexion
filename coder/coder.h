@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 14:45:30 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/15 15:57:35 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/15 17:43:32 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 # define CODER_H
 
 # include "../data/data.h"
+# include "../utils/utils.h"
 # include "sys/time.h"
 # include <pthread.h>
 # include <stdlib.h>
+# include <unistd.h>
 # include <stdio.h>
 
 enum e_coder_status
@@ -32,6 +34,7 @@ typedef struct s_coder
 {
 	enum e_coder_status	status;
 	int					remain;
+	int					sleeping_start;
 	pthread_t			thread;
 	t_data				*data;
 	pthread_mutex_t		*mutex;

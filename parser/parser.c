@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 17:55:44 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/15 15:55:31 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/15 17:43:32 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	parse(int argc, char **argv, t_data *data)
 	fail = 0;
 	if (argc != 9)
 		return (9);
-	fail += to_int(&data->number_of_coders, argv[1], "Number of coders");
+	fail += to_int(&data->nb_coders, argv[1], "Number of coders");
 	fail += to_int(&data->time_to_burnout, argv[2], "Time to burnout");
 	fail += to_int(&data->time_to_compile, argv[3], "Time to compile");
 	fail += to_int(&data->time_to_debug, argv[4], "Time to debug");
@@ -49,5 +49,6 @@ char	parse(int argc, char **argv, t_data *data)
 		fail += 1;
 		fprintf(stderr, "Scheduler -> Incorrect value '%s'.\n", argv[8]);
 	}
+	data->timestamp_start = get_time();
 	return (fail);
 }

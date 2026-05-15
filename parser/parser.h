@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 15:53:04 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/15 15:57:35 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/15 17:43:32 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_H
 
 # include "../data/data.h"
+# include "../utils/utils.h"
 # include <string.h>
 # include <stdlib.h>
 # include <stdio.h>

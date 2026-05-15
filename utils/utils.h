@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       :::      ::::::::    */
-/*   data.h                                             :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/15 15:19:38 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/15 17:43:32 by flinguen         ###   ########.fr       */
+/*   Created: 2026/05/15 17:43:34 by flinguen          #+#    #+#             */
+/*   Updated: 2026/05/15 17:43:34 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DATA_H
-# define DATA_H
+#ifndef UTILS_H
+# define UTILS_H
 
+# include <unistd.h>
 # include <sys/time.h>
 
-typedef struct s_data
-{
-	char			scheduler;
-	int				time_to_debug;
-	int				time_to_burnout;
-	int				time_to_compile;
-	int				time_to_refactor;
-	int				dongle_cooldown;
-	int				nb_to_do;
-	int				nb_coders;
-	int				timestamp_start;
-}	t_data;
+/**
+ * @brief Get the current time whit the gettimeofday function.
+ * @return time in milliseconds
+ */
+int	get_time(void);
 
 #endif

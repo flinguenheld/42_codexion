@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 13:27:03 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/15 15:55:31 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/15 17:43:32 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ t_codexion	init_codexion(t_data data)
 	int			index;
 	t_coder		*new_one;
 
-	codexion.coders = malloc(data.number_of_coders * sizeof(t_coder *));
+	codexion.coders = malloc(data.nb_coders * sizeof(t_coder *));
 	codexion.mutex = malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(codexion.mutex, NULL);
 
 	index = 0;
-	while (index < data.number_of_coders)
+	while (index < data.nb_coders)
 	{
 		// Create dongles
 
@@ -43,11 +43,11 @@ void	close_codexion(t_data data, t_codexion codexion)
 
 	// Or set them has over ?
 
-	while (data.number_of_coders > 0)
+	while (data.nb_coders > 0)
 	{
-			pthread_join(codexion.coders[data.number_of_coders - 1]->thread, NULL);
-		free(codexion.coders[data.number_of_coders - 1]);
-		data.number_of_coders--;
+			pthread_join(codexion.coders[data.nb_coders - 1]->thread, NULL);
+		free(codexion.coders[data.nb_coders - 1]);
+		data.nb_coders--;
 	}
 	pthread_mutex_destroy(codexion.mutex);
 	free(codexion.mutex);

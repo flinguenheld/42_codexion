@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       :::      ::::::::    */
-/*   data.h                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/15 15:19:38 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/15 17:43:32 by flinguen         ###   ########.fr       */
+/*   Created: 2026/05/15 17:43:34 by flinguen          #+#    #+#             */
+/*   Updated: 2026/05/15 17:43:34 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DATA_H
-# define DATA_H
+#include "utils.h"
 
-# include <sys/time.h>
-
-typedef struct s_data
+int	get_time(void)
 {
-	char			scheduler;
-	int				time_to_debug;
-	int				time_to_burnout;
-	int				time_to_compile;
-	int				time_to_refactor;
-	int				dongle_cooldown;
-	int				nb_to_do;
-	int				nb_coders;
-	int				timestamp_start;
-}	t_data;
+	struct timeval	time;
 
-#endif
+	gettimeofday(&time, NULL);
+	return (time.tv_usec / 1000);
+}
