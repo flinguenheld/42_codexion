@@ -6,9 +6,10 @@ LIBFT_FOLDER = ./libft/
 LIBFT_FILE = $(LIBFT_FOLDER)libft.a
 
 SRC = main.c \
+		coder/coder.c \
+		parser/parser.c \
 		usage.c \
 		codexion.c \
-		parser/parser.c \
 
 all: $(NAME)
 

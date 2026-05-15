@@ -14,46 +14,14 @@
 # define CODEXION_H
 
 # include "libft/libft.h"
-# include "sys/time.h"
-# include "unistd.h"
-# include <pthread.h>
-// #include <bits/pthreadtypes.h>
-# include <stdio.h>
+# include "coder/coder.h"
+# include "data/data.h"
 
-enum e_status
-{
-	COMPILING,
-	DEBUGGING,
-	REFACTORING,
-	COOLDOWN,
-	WAITING,
-};
-
-typedef struct s_data
-{
-	int		number_of_coders;
-	int		time_to_burnout;
-	int		time_to_compile;
-	int		time_to_debug;
-	int		time_to_refactor;
-	int		nb_to_do;
-	int		dongle_cooldown;
-	char	scheduler;
-}	t_data;
-
-typedef struct s_coder
-{
-	enum e_status	status;
-	int				remain;
-	pthread_t		thread;
-	t_data			*data;
-	t_list			*to_print;
-}	t_coder;
 
 typedef struct s_codexion
 {
-	t_coder	*coders;
-	t_list	*to_print;
+	t_coder			**coders;
+	pthread_mutex_t	*mutex;
 }	t_codexion;
 
 // Create a struct which regroups structs to feed coders ?
@@ -67,7 +35,7 @@ typedef struct s_codexion
 t_codexion	init_codexion(t_data data);
 
 /**
- * @brief
+ * @brief Cleanly close codexion
  */
 void	close_codexion(t_data data, t_codexion codexion);
 

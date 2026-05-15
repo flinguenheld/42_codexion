@@ -18,14 +18,14 @@ static int	to_int(int *to, char *value, char *explanation)
 
 	if (ft_is_integer(value))
 	{
-		numeric = ft_atoi(value);
+		numeric = atoi(value);
 		if (numeric >= 1)
 		{
 			*to = numeric;
 			return (0);
 		}
 	}
-	ft_printf_err("%s -> Incorrect value '%s'.\n", explanation, value);
+	fprintf(stderr, "%s -> Incorrect value '%s'.\n", explanation, value);
 	return (1);
 }
 
@@ -50,7 +50,7 @@ char	parse(int argc, char **argv, t_data *data)
 	else
 	{
 		fail += 1;
-		ft_printf_err("Scheduler -> Incorrect value '%s'.\n", argv[8]);
+		fprintf(stderr, "Scheduler -> Incorrect value '%s'.\n", argv[8]);
 	}
 	return (fail);
 }
