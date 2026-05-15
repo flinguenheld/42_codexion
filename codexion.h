@@ -6,17 +6,16 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 19:14:19 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/12 19:14:19 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/15 15:59:40 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CODEXION_H
 # define CODEXION_H
 
-# include "libft/libft.h"
 # include "coder/coder.h"
 # include "data/data.h"
-
+# include "parser/parser.h"
 
 typedef struct s_codexion
 {
@@ -29,15 +28,16 @@ typedef struct s_codexion
 
 // ----------------------------------------------------------------------------
 // --------------------------------------------------------------- CODEXION ---
+
 /**
  * @brief
  */
-t_codexion	init_codexion(t_data data);
+t_codexion		init_codexion(t_data data);
 
 /**
  * @brief Cleanly close codexion
  */
-void	close_codexion(t_data data, t_codexion codexion);
+void			close_codexion(t_data data, t_codexion codexion);
 
 // ----------------------------------------------------------------------------
 // ------------------------------------------------------------------ USAGE ---
@@ -47,16 +47,6 @@ void	close_codexion(t_data data, t_codexion codexion);
  * Print the usage message
  * error = 1 to print in stderr
  */
-void	usage(int error);
-
-// ----------------------------------------------------------------------------
-// ------------------------------------------------------------------ PARSE ---
-
-/**
- * @brief
- * Parse the given arguments to fill data.
- * @return 0 if ok or the amount of wrong arguments
- */
-char	parse(int argc, char **argv, t_data *data);
+void			usage(int error);
 
 #endif

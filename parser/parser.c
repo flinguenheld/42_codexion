@@ -6,24 +6,21 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 17:55:44 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/13 17:55:44 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/15 15:55:31 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../codexion.h"
+#include "parser.h"
 
 static int	to_int(int *to, char *value, char *explanation)
 {
 	int	numeric;
 
-	if (ft_is_integer(value))
+	numeric = atoi(value);
+	if (numeric >= 1)
 	{
-		numeric = atoi(value);
-		if (numeric >= 1)
-		{
-			*to = numeric;
-			return (0);
-		}
+		*to = numeric;
+		return (0);
 	}
 	fprintf(stderr, "%s -> Incorrect value '%s'.\n", explanation, value);
 	return (1);
@@ -43,9 +40,9 @@ char	parse(int argc, char **argv, t_data *data)
 	fail += to_int(&data->time_to_refactor, argv[5], "Time to refactor");
 	fail += to_int(&data->nb_to_do, argv[6], "Number of compiles required");
 	fail += to_int(&data->dongle_cooldown, argv[7], "Dongle cooldown");
-	if (ft_strlen(argv[8]) == 4 && ft_strncmp(argv[8], "fifo", 4) == 0)
+	if (strlen(argv[8]) == 4 && strcmp(argv[8], "fifo") == 0)
 		data->scheduler = 'f';
-	else if (ft_strlen(argv[8]) == 3 && ft_strncmp(argv[8], "edf", 3) == 0)
+	else if (strlen(argv[8]) == 3 && strcmp(argv[8], "edf") == 0)
 		data->scheduler = 'e';
 	else
 	{
