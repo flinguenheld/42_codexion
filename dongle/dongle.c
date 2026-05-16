@@ -12,6 +12,21 @@
 
 #include "dongle.h"
 
+long	*init_dongles(t_data *data)
+{
+	int		index;
+	long	*dongles;
+
+	index = 0;
+	dongles = malloc(data->nb_coders * sizeof(long));
+	while (index < data->nb_coders)
+	{
+		dongles[index] = -1;
+		index++;
+	}
+	return dongles;
+}
+
 /**
  * @brief Up one dongle value according to its left/right coders.
  */
@@ -38,7 +53,7 @@ static void	up_dongle(long *dongle, t_coder *cd_left,
 /**
  * @brief Loop in dongles to update their values according to coders.
  */
-void up_dongles(t_codexion *codexion, t_data *data)
+void up_dongles(long *dongles, t_coder **coders, t_data *data)
 {
 	int	dongle_index;
 	int	coder_index[2];
@@ -50,9 +65,9 @@ void up_dongles(t_codexion *codexion, t_data *data)
 		coder_index[1] = dongle_index + 1;
 		if (coder_index[1] == data->nb_coders)
 			coder_index[1] = 0;
-		up_dongle(codexion->dongles[dongle_index],
-				codexion->coders[coder_index[0]],
-				codexion->coders[coder_index[1]],
+		up_dongle(&dongles[dongle_index],
+				coders[coder_index[0]],
+				coders[coder_index[1]],
 				data);
 
 		dongle_index++;

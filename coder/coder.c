@@ -64,11 +64,7 @@ static void	up_status(t_coder *coder, enum e_coder_status new_status)
 	if (new_status == COMPILING)
 		coder->timestamp_last_comp = get_time();
 	else if (new_status == WAITING)
-	{
-		
 		coder->remain--;
-		printf("here we reduce %d -> %d\n", coder->id, coder->remain);
-	}
 	print_status(coder);
 	pthread_mutex_unlock(coder->mutex);
 }
@@ -85,10 +81,9 @@ static void	proceed(t_coder *coder)
 	else if (coder->status == DEBUGGING && elapsed > coder->data->time_debug)
 		up_status(coder, REFACTORING);
 	else if (coder->status == REFACTORING && elapsed > coder->data->time_refact)
-	{
 		up_status(coder, WAITING);
-		// up_status(coder, KILLED);
-	}
+	else if (coder->status == WAITING && elapsed > coder->data->time_burnout)
+		up_status(coder, BURNOUT);
 }
 
 void	*coder_process(void *c)
@@ -99,7 +94,7 @@ void	*coder_process(void *c)
 	while (coder->status != KILLED && coder->status != BURNOUT)
 	{
 		proceed(coder);
-		usleep(500);
+		usleep(800);
 	}
 	return NULL;
 }

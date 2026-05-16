@@ -10,12 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "coder/coder.h"
 #include "codexion.h"
-#include "utils/utils.h"
 #include "dongle/dongle.h"
-#include <stdio.h>
-
 
 int	main(int argc, char **argv)
 {
@@ -33,17 +29,17 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 
-	codexion = init_codexion(data);
+	codexion = init_codexion(&data);
 
 
 	while (!are_all_coders_over(codexion.coders, &data))
 	{
-		// up_dongles(&codexion, &data);
+		up_dongles(codexion.dongles, codexion.coders, &data);
 		// printf("remain first coder: %d\n", codexion.coders[0]->remain);
 		// printf("remain first coder: %d\n", codexion.coders[1]->remain);
 		// printf("remain first coder: %d\n", codexion.coders[2]->remain);
 
-		usleep(5000);
+		usleep(10);
 	}
 
 	printf("Done ! \n");
@@ -57,7 +53,7 @@ int	main(int argc, char **argv)
 	// Create the manager
 	// usleep(5 * 100000);
 
-	close_codexion(data, codexion);
+	close_codexion(&data, codexion);
 
 	return (0);
 }

@@ -13,7 +13,7 @@
 #include "coder.h"
 
 /**
- * @brief Loop in all coders to set their status as KILLED.
+ * @brief Set all coders' status to KILLED.
  */
 static void	kill_all_coders(t_coder **coders, t_data *data)
 {

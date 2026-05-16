@@ -16,11 +16,12 @@
 # include "coder/coder.h"
 # include "data/data.h"
 # include "parser/parser.h"
+# include "dongle/dongle.h"
 
 typedef struct s_codexion
 {
 	t_coder			**coders;
-	long			**dongles;
+	long			*dongles;
 	pthread_mutex_t	*mutex;
 }	t_codexion;
 
@@ -33,12 +34,12 @@ typedef struct s_codexion
 /**
  * @brief
  */
-t_codexion		init_codexion(t_data data);
+t_codexion		init_codexion(t_data *data);
 
 /**
  * @brief Cleanly close codexion
  */
-void			close_codexion(t_data data, t_codexion codexion);
+void			close_codexion(t_data *data, t_codexion codexion);
 
 // ----------------------------------------------------------------------------
 // ------------------------------------------------------------------ USAGE ---

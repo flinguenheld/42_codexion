@@ -21,7 +21,7 @@ $(NAME): $(OBJS)
 
 debug: CFLAGS = -DDEBUG
 debug: all
-	./$(NAME) 3 600 50 50 50 1 150 fifo
+	./$(NAME) 3 600 50 50 50 2 150 fifo
 
 clean:
 	@rm -f $(OBJS)
