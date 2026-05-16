@@ -6,6 +6,8 @@ NAME = codexion
 SRC = main.c \
 		utils/utils.c \
 		coder/coder.c \
+		coder/coder_utils.c \
+		dongle/dongle.c \
 		parser/parser.c \
 		usage.c \
 		codexion.c \
@@ -19,7 +21,7 @@ $(NAME): $(OBJS)
 
 debug: CFLAGS = -DDEBUG
 debug: all
-	./$(NAME) 3 600 50 50 50 20 5 fifo
+	./$(NAME) 3 600 50 50 50 1 150 fifo
 
 clean:
 	@rm -f $(OBJS)

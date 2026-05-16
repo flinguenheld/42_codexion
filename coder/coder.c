@@ -22,7 +22,7 @@ t_coder	*new_coder(t_data *data, pthread_mutex_t *mutex, int id)
 
 	new_coder = malloc(sizeof(t_coder));
 	new_coder->timestamp_start = get_time();
-	new_coder->timestamp_last_compilation = get_time();
+	new_coder->timestamp_last_comp = -1;
 	new_coder->remain = data->nb_to_do;
 	new_coder->status = START; // TODO: TO UP WITH THE MANAGER
 	new_coder->mutex = mutex;
@@ -62,7 +62,13 @@ static void	up_status(t_coder *coder, enum e_coder_status new_status)
 	coder->status = new_status;
 	coder->timestamp_start = get_time();
 	if (new_status == COMPILING)
-		coder->timestamp_last_compilation = get_time();
+		coder->timestamp_last_comp = get_time();
+	else if (new_status == WAITING)
+	{
+		
+		coder->remain--;
+		printf("here we reduce %d -> %d\n", coder->id, coder->remain);
+	}
 	print_status(coder);
 	pthread_mutex_unlock(coder->mutex);
 }
@@ -71,7 +77,7 @@ static void	proceed(t_coder *coder)
 {
 	int	elapsed;
 
-	elapsed = get_time() - (long)coder->timestamp_start;
+	elapsed = get_time() - coder->timestamp_start;
 	if (coder->status == START)
 		up_status(coder, COMPILING);
 	else if (coder->status == COMPILING && elapsed > coder->data->time_compile)
@@ -80,9 +86,8 @@ static void	proceed(t_coder *coder)
 		up_status(coder, REFACTORING);
 	else if (coder->status == REFACTORING && elapsed > coder->data->time_refact)
 	{
-		// Also release the dongles here ?
-		// up_status(coder, WAITING);
-		up_status(coder, KILLED);
+		up_status(coder, WAITING);
+		// up_status(coder, KILLED);
 	}
 }
 

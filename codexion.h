@@ -20,6 +20,7 @@
 typedef struct s_codexion
 {
 	t_coder			**coders;
+	long			**dongles;
 	pthread_mutex_t	*mutex;
 }	t_codexion;
 

@@ -19,6 +19,7 @@ t_codexion	init_codexion(t_data data)
 	t_coder		*new_one;
 
 	codexion.coders = malloc(data.nb_coders * sizeof(t_coder *));
+	codexion.dongles = malloc(data.nb_coders * sizeof(char));
 	codexion.mutex = malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(codexion.mutex, NULL);
 
@@ -45,11 +46,12 @@ void	close_codexion(t_data data, t_codexion codexion)
 
 	while (data.nb_coders > 0)
 	{
-			pthread_join(codexion.coders[data.nb_coders - 1]->thread, NULL);
+		pthread_join(codexion.coders[data.nb_coders - 1]->thread, NULL);
 		free(codexion.coders[data.nb_coders - 1]);
 		data.nb_coders--;
 	}
 	pthread_mutex_destroy(codexion.mutex);
 	free(codexion.mutex);
 	free(codexion.coders);
+	free(codexion.dongles);
 }

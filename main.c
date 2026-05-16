@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "coder/coder.h"
 #include "codexion.h"
+#include "utils/utils.h"
+#include "dongle/dongle.h"
+#include <stdio.h>
 
 
 int	main(int argc, char **argv)
@@ -19,8 +23,8 @@ int	main(int argc, char **argv)
 	int		nb_fail;
 	t_codexion	codexion;
 
-	printf("-> %d\n", argc);
-	printf("-> %s\n", argv[7]);
+	// printf("-> %d\n", argc);
+	// printf("-> %s\n", argv[7]);
 	nb_fail = parse(argc, argv, &data);
 	if (nb_fail > 0)
 	{
@@ -31,13 +35,24 @@ int	main(int argc, char **argv)
 
 	codexion = init_codexion(data);
 
-	
+
+	while (!are_all_coders_over(codexion.coders, &data))
+	{
+		// up_dongles(&codexion, &data);
+		// printf("remain first coder: %d\n", codexion.coders[0]->remain);
+		// printf("remain first coder: %d\n", codexion.coders[1]->remain);
+		// printf("remain first coder: %d\n", codexion.coders[2]->remain);
+
+		usleep(5000);
+	}
+
+	printf("Done ! \n");
+
 	// printf("MAIN \n\n");
 	// printf("ID coder at 0 %lu\n", codexion.coders[0]->thread);
 	// printf("ID coder at 1 %lu\n", codexion.coders[1]->thread);
 	// printf("ID coder at 2 %lu\n", codexion.coders[2]->thread);
 	// printf("\n\n");
-
 
 	// Create the manager
 	// usleep(5 * 100000);
