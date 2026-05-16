@@ -26,7 +26,6 @@ enum e_coder_status
 	REFACTORING,
 	COMPILING,
 	DEBUGGING,
-	COOLDOWN,
 	WAITING,
 	BURNOUT,
 	KILLED,
@@ -39,6 +38,7 @@ typedef struct s_coder
 	int					id;
 	int					remain;
 	long				timestamp_start;
+	long				timestamp_last_compilation;
 	pthread_t			thread;
 	t_data				*data;
 	pthread_mutex_t		*mutex;

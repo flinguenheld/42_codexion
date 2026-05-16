@@ -22,6 +22,7 @@ t_coder	*new_coder(t_data *data, pthread_mutex_t *mutex, int id)
 
 	new_coder = malloc(sizeof(t_coder));
 	new_coder->timestamp_start = get_time();
+	new_coder->timestamp_last_compilation = get_time();
 	new_coder->remain = data->nb_to_do;
 	new_coder->status = START; // TODO: TO UP WITH THE MANAGER
 	new_coder->mutex = mutex;
@@ -39,13 +40,17 @@ static void	print_status(t_coder *coder)
 
 	time = get_time() - coder->data->timestamp_start;
 	if (coder->status == COMPILING)
+	{
+		printf("%5d %3d has taken a dongle\n", time, coder->id);
+		printf("%5d %3d has taken a dongle\n", time, coder->id);
 		printf("%5d %3d is compiling\n", time, coder->id);
+	}
 	else if (coder->status == DEBUGGING)
 		printf("%5d %3d is debugging\n", time, coder->id);
 	else if (coder->status == REFACTORING)
 		printf("%5d %3d is refactoring\n", time, coder->id);
 	else if (coder->status == BURNOUT)
-		printf("%5d %3d burned out\n", time, coder->id);
+		printf("%5d %3d has burned out\n", time, coder->id);
 }
 
 /**
@@ -56,6 +61,8 @@ static void	up_status(t_coder *coder, enum e_coder_status new_status)
 	pthread_mutex_lock(coder->mutex);
 	coder->status = new_status;
 	coder->timestamp_start = get_time();
+	if (new_status == COMPILING)
+		coder->timestamp_last_compilation = get_time();
 	print_status(coder);
 	pthread_mutex_unlock(coder->mutex);
 }
@@ -72,8 +79,6 @@ static void	proceed(t_coder *coder)
 	else if (coder->status == DEBUGGING && elapsed > coder->data->time_debug)
 		up_status(coder, REFACTORING);
 	else if (coder->status == REFACTORING && elapsed > coder->data->time_refact)
-		up_status(coder, COOLDOWN);
-	else if (coder->status == COOLDOWN && elapsed > coder->data->time_cooldown)
 	{
 		// Also release the dongles here ?
 		// up_status(coder, WAITING);
