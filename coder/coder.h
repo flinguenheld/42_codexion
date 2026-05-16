@@ -37,7 +37,7 @@ typedef struct s_coder
 	enum e_coder_status	status;
 	int					id;
 	int					remain;
-	long				timestamp_start;
+	long				timestamp;
 	long				timestamp_last_comp;
 	pthread_t			thread;
 	t_data				*data;

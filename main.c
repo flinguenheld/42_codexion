@@ -39,6 +39,16 @@ int	main(int argc, char **argv)
 		// printf("remain first coder: %d\n", codexion.coders[1]->remain);
 		// printf("remain first coder: %d\n", codexion.coders[2]->remain);
 
+		// FIFO
+
+		// Get the coders which are waiting
+
+
+		// Then only keep those which have their dongle availlable
+
+		// Then get the first arrived
+
+
 		usleep(10);
 	}
 

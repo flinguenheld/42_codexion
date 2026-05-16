@@ -21,8 +21,8 @@ t_coder	*new_coder(t_data *data, pthread_mutex_t *mutex, int id)
 	t_coder		*new_coder;
 
 	new_coder = malloc(sizeof(t_coder));
-	new_coder->timestamp_start = get_time();
 	new_coder->timestamp_last_comp = -1;
+	new_coder->timestamp = get_time();
 	new_coder->remain = data->nb_to_do;
 	new_coder->status = START; // TODO: TO UP WITH THE MANAGER
 	new_coder->mutex = mutex;
@@ -60,11 +60,14 @@ static void	up_status(t_coder *coder, enum e_coder_status new_status)
 {
 	pthread_mutex_lock(coder->mutex);
 	coder->status = new_status;
-	coder->timestamp_start = get_time();
+	coder->timestamp = get_time();
 	if (new_status == COMPILING)
 		coder->timestamp_last_comp = get_time();
 	else if (new_status == WAITING)
+	{
+		coder->timestamp = get_time();
 		coder->remain--;
+	}
 	print_status(coder);
 	pthread_mutex_unlock(coder->mutex);
 }
@@ -73,7 +76,7 @@ static void	proceed(t_coder *coder)
 {
 	int	elapsed;
 
-	elapsed = get_time() - coder->timestamp_start;
+	elapsed = get_time() - coder->timestamp;
 	if (coder->status == START)
 		up_status(coder, COMPILING);
 	else if (coder->status == COMPILING && elapsed > coder->data->time_compile)

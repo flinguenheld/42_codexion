@@ -19,6 +19,7 @@ t_codexion	init_codexion(t_data *data)
 	t_coder		*new_one;
 
 	codexion.coders = malloc(data->nb_coders * sizeof(t_coder *));
+	codexion.buffer = malloc(data->nb_coders * sizeof(t_coder *));
 	codexion.dongles = init_dongles(data);
 	codexion.mutex = malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(codexion.mutex, NULL);
@@ -26,12 +27,8 @@ t_codexion	init_codexion(t_data *data)
 	index = 0;
 	while (index < data->nb_coders)
 	{
-		// Create dongles
-
-		// Affect them into coders
 		new_one = new_coder(data, codexion.mutex, index + 1);
 	    pthread_create(&new_one->thread, NULL, coder_process, (void *)new_one);
-
 		codexion.coders[index] = new_one;
 		index++;
 	}
@@ -40,10 +37,6 @@ t_codexion	init_codexion(t_data *data)
 
 void	close_codexion(t_data *data, t_codexion codexion)
 {
-	// Loop in threads and wait them ?
-
-	// Or set them has over ?
-
 	while (data->nb_coders > 0)
 	{
 		pthread_join(codexion.coders[data->nb_coders - 1]->thread, NULL);
@@ -53,5 +46,6 @@ void	close_codexion(t_data *data, t_codexion codexion)
 	pthread_mutex_destroy(codexion.mutex);
 	free(codexion.mutex);
 	free(codexion.coders);
+	free(codexion.buffer);
 	free(codexion.dongles);
 }
