@@ -6,12 +6,74 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 16:41:18 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/15 23:11:36 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/17 23:49:58 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+#include "coder/coder.h"
 #include "dongle/dongle.h"
+#include <stdio.h>
+
+void get_waiting_coders(t_coder **coders, t_coder **buffer, int nb_coders)
+{
+	int		index;
+
+	index = 0;
+	while (index < nb_coders)
+	{
+		if (coders[index]->status == WAITING)
+			buffer[index] = coders[index];
+		else
+			buffer[index] = NULL;
+		index++;
+	}
+}
+
+void filter_available_dongles(t_coder **buffer, enum e_dongle_status *dongles,
+								int nb_coders)
+{
+	int		index;
+	int		index_prev;
+
+	index = 0;
+	while (index < nb_coders)
+	{
+		if (buffer[index])
+		{
+			index_prev = get_overlapped_index(index - 1, nb_coders);
+			if (dongles[index_prev] == BUSY || dongles[index] == BUSY)
+			{
+				// printf("these can't: %d %d\n", index_prev, index);
+				buffer[index] = NULL;
+			}
+		}
+		index++;
+	}
+}
+
+int	fifo(t_coder **buffer, int nb_coders)
+{
+	int	index;
+	int	found;
+
+	index = 0;
+	found = -1;
+	while (index < nb_coders)
+	{
+
+		if (buffer[index])
+		{
+			if (found < 0 || buffer[index]->timestamp_last_comp < buffer[found]->timestamp_last_comp)
+			{
+				// printf("found this one: %d\n", index);
+				found = index;
+			}
+		}
+		index++;
+	}
+	return (found);
+}
 
 int	main(int argc, char **argv)
 {
@@ -38,17 +100,23 @@ int	main(int argc, char **argv)
 		// printf("remain first coder: %d\n", codexion.coders[0]->remain);
 		// printf("remain first coder: %d\n", codexion.coders[1]->remain);
 		// printf("remain first coder: %d\n", codexion.coders[2]->remain);
+		get_waiting_coders(codexion.coders, codexion.buffer, data.nb_coders);
+		filter_available_dongles(codexion.buffer, codexion.dongles,
+							data.nb_coders);
 
-		// FIFO
+		// FIFO -> Get the first arrived
 
-		// Get the coders which are waiting
+		int blah = fifo(codexion.buffer, data.nb_coders);
 
-
-		// Then only keep those which have their dongle availlable
-
-		// Then get the first arrived
-
-
+		if (blah >= 0)
+		{
+			pthread_mutex_lock(codexion.mutex);
+			// printf("start this one: %d\n", blah);
+			codexion.coders[blah]->status = START;
+			pthread_mutex_unlock(codexion.mutex);
+			codexion.dongles[blah] = BUSY;
+			codexion.dongles[get_overlapped_index(blah - 1, data.nb_coders)] = BUSY;
+		}
 		usleep(10);
 	}
 

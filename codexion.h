@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 19:14:19 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/15 15:59:40 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/17 23:49:58 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 
 typedef struct s_codexion
 {
-	t_coder			**coders;
-	t_coder			**buffer;
-	long			*dongles;
-	pthread_mutex_t	*mutex;
+	t_coder					**coders;
+	t_coder					**buffer;
+	enum e_dongle_status	*dongles;
+	pthread_mutex_t			*mutex;
 }	t_codexion;
 
 // Create a struct which regroups structs to feed coders ?

@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 14:45:30 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/15 23:18:03 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/17 23:49:59 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_coder	*new_coder(t_data *data, pthread_mutex_t *mutex, int id)
 	new_coder->timestamp_last_comp = -1;
 	new_coder->timestamp = get_time();
 	new_coder->remain = data->nb_to_do;
-	new_coder->status = START; // TODO: TO UP WITH THE MANAGER
+	new_coder->status = WAITING;
 	new_coder->mutex = mutex;
 	new_coder->data = data;
 	new_coder->id = id;
@@ -99,5 +99,5 @@ void	*coder_process(void *c)
 		proceed(coder);
 		usleep(800);
 	}
-	return NULL;
+	return (NULL);
 }
