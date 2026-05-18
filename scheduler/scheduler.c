@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 10:19:48 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/18 18:12:30 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/18 10:44:51 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ int	edf(t_coder **buffer, int nb_coders)
 	int	index;
 	int	found;
 
-	index = 0;
+	index = nb_coders - 1;
 	found = -1;
-	while (index < nb_coders)
+	while (index >= 0)
 	{
 		if (buffer[index])
 		{
@@ -84,7 +84,7 @@ int	edf(t_coder **buffer, int nb_coders)
 				< buffer[found]->timestamp_last_comp))
 				found = index;
 		}
-		index++;
+		index--;
 	}
 	return (found);
 }
