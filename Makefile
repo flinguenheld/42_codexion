@@ -28,7 +28,7 @@ test_fifo: all
 	./$(NAME) 4 600 150 50 50 10 10 fifo
 
 test_edf: all
-	./$(NAME) 4 600 150 50 50 10 10 edf
+	./$(NAME) 200 600 150 50 50 10 10 edf
 
 clean:
 	@rm -f $(OBJS)

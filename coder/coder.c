@@ -41,17 +41,17 @@ static void	print_status(t_coder *coder)
 	time = get_time() - coder->data->timestamp_start;
 	if (coder->status == COMPILING)
 	{
-		printf("%5d %3d has taken a dongle\n", time, coder->id);
-		printf("%5d %3d has taken a dongle\n", time, coder->id);
-		printf("%5d %3d is compiling (%d remain)\n", time, coder->id,
+		printf("%6d    C%-3d  has taken a dongle\n", time, coder->id);
+		printf("%6d    C%-3d  has taken a dongle\n", time, coder->id);
+		printf("%6d    C%-3d  is compiling (%d remain) 🤖\n", time, coder->id,
 			coder->remain - 1);
 	}
 	else if (coder->status == DEBUGGING)
-		printf("%5d %3d is debugging\n", time, coder->id);
+		printf("%6d    C%-3d  is debugging 🪲\n", time, coder->id);
 	else if (coder->status == REFACTORING)
-		printf("%5d %3d is refactoring\n", time, coder->id);
+		printf("%6d    C%-3d  is refactoring 🧼\n", time, coder->id);
 	else if (coder->status == BURNOUT)
-		printf("%5d %3d has burned out\n", time, coder->id);
+		printf("%6d    C%-3d xXx has burned out xXx\n", time, coder->id);
 }
 
 /**
