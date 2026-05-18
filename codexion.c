@@ -6,11 +6,12 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 13:27:03 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/18 10:44:51 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/18 18:12:30 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+#include "coder/coder.h"
 
 t_codexion	init_codexion(t_data *data)
 {
@@ -47,4 +48,32 @@ void	close_codexion(t_data *data, t_codexion codexion)
 	free(codexion.coders);
 	free(codexion.buffer);
 	free(codexion.dongles);
+}
+
+void	run(t_codexion *codexion, t_data *data)
+{
+	int	index_to_start;
+
+	index_to_start = -1;
+	while (!are_all_coders_over(codexion->coders, data))
+	{
+		up_dongles(codexion->dongles, codexion->coders, data);
+		buffer_get_waiting_cd(codexion->coders, codexion->buffer,
+			data->nb_coders);
+		buffer_filter(codexion->buffer, codexion->dongles, data->nb_coders);
+		if (data->scheduler == 'e')
+			index_to_start = edf(codexion->buffer, data->nb_coders);
+		else
+			index_to_start = fifo(codexion->buffer, data->nb_coders);
+		if (index_to_start >= 0)
+		{
+			pthread_mutex_lock(codexion->mutex);
+			codexion->coders[index_to_start]->status = START;
+			pthread_mutex_unlock(codexion->mutex);
+			codexion->dongles[index_to_start] = BUSY;
+			codexion->dongles[get_overlapped_index(index_to_start - 1,
+					data->nb_coders)] = BUSY;
+		}
+		usleep(10);
+	}
 }

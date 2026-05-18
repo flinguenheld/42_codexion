@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 14:45:30 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/17 23:49:59 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/18 18:12:30 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static void	print_status(t_coder *coder)
 	{
 		printf("%5d %3d has taken a dongle\n", time, coder->id);
 		printf("%5d %3d has taken a dongle\n", time, coder->id);
-		printf("%5d %3d is compiling\n", time, coder->id);
+		printf("%5d %3d is compiling (%d remain)\n", time, coder->id,
+			coder->remain - 1);
 	}
 	else if (coder->status == DEBUGGING)
 		printf("%5d %3d is debugging\n", time, coder->id);
@@ -67,6 +68,8 @@ static void	up_status(t_coder *coder, enum e_coder_status new_status)
 	{
 		coder->timestamp = get_time();
 		coder->remain--;
+		if (coder->remain <= 0)
+			coder->status = DONE;
 	}
 	print_status(coder);
 	pthread_mutex_unlock(coder->mutex);

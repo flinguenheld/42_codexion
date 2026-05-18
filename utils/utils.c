@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 17:43:34 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/17 23:49:59 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/18 18:12:30 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	get_overlapped_index(int index, int nb_elements)
 {
 	if (index < 0)
 		return (nb_elements - 1);
-	else if (index >= nb_elements - 1)
+	else if (index >= nb_elements)
 		return (0);
 	else
 		return (index);

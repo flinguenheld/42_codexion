@@ -6,11 +6,12 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 10:19:48 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/18 10:44:51 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/18 18:12:30 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scheduler.h"
+#include <stdio.h>
 
 void	buffer_get_waiting_cd(t_coder **coders, t_coder **buffer, int nb_coders)
 {
@@ -52,6 +53,7 @@ int	fifo(t_coder **buffer, int nb_coders)
 	int	index;
 	int	found;
 
+
 	index = 0;
 	found = -1;
 	while (index < nb_coders)
@@ -60,6 +62,26 @@ int	fifo(t_coder **buffer, int nb_coders)
 		{
 			if (found < 0 || buffer[index]->timestamp_last_comp
 				< buffer[found]->timestamp_last_comp)
+				found = index;
+		}
+		index++;
+	}
+	return (found);
+}
+
+int	edf(t_coder **buffer, int nb_coders)
+{
+	int	index;
+	int	found;
+
+	index = 0;
+	found = -1;
+	while (index < nb_coders)
+	{
+		if (buffer[index])
+		{
+			if (found < 0 || (buffer[index]->timestamp_last_comp
+				< buffer[found]->timestamp_last_comp))
 				found = index;
 		}
 		index++;

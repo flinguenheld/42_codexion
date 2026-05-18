@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 16:27:36 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/17 23:49:59 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/18 18:12:30 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,22 @@ enum e_dongle_status	*init_dongles(t_data *data)
 static void	up_dongle(enum e_dongle_status *dongle, t_coder *cd_left,
 							t_coder *cd_right, t_data *data)
 {
-	long	released;
-	long	current;
+	long	now_time;
+	long	released_time;
 
-	current = get_time();
-	released = data->time_compile + data->time_cooldown;
+	now_time = get_time();
+	released_time = data->time_compile + data->time_cooldown;
 	if (*dongle == BUSY)
 	{
 		if (cd_left->status != START && cd_right->status != START)
 		{
-			if (current >= cd_left->timestamp_last_comp + released
-				&& current >= cd_right->timestamp_last_comp + released)
+			if (now_time >= cd_left->timestamp_last_comp + released_time
+				&& now_time >= cd_right->timestamp_last_comp + released_time)
 			{
 				*dongle = AVAILABLE;
 			}
 		}
 	}
-	else if (cd_left->status == COMPILING || cd_right->status == COMPILING)
-		*dongle = BUSY;
 }
 
 /**

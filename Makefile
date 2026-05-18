@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -pthread
 
 NAME = codexion
 
@@ -24,6 +24,12 @@ debug: CFLAGS = -DDEBUG
 debug: all
 	./$(NAME) 4 600 50 50 50 2 150 fifo
 
+test_fifo: all
+	./$(NAME) 3 600 150 50 50 10 10 fifo
+
+test_edf: all
+	./$(NAME) 4 600 50 50 50 2 150 edf
+
 clean:
 	@rm -f $(OBJS)
 
@@ -33,4 +39,4 @@ fclean: clean
 re: fclean all
 
 .SILENT: $(NAME)
-.PHONY: all debug clean fclean re
+.PHONY: all debug clean fclean re test_fifo test_edf

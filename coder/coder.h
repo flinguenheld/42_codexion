@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 14:45:30 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/17 23:49:59 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/18 18:12:30 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ enum e_coder_status
 	BURNOUT,
 	KILLED,
 	START,
+	DONE,
 };
 
 typedef struct s_coder

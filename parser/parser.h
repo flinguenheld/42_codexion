@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 15:53:04 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/15 17:43:32 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/18 18:12:30 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../data/data.h"
 # include "../utils/utils.h"
+# include "../scheduler/scheduler.h"
 # include <string.h>
 # include <stdlib.h>
 # include <stdio.h>

@@ -6,14 +6,15 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 10:19:48 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/18 10:44:51 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/18 18:12:30 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCHEDULER_H
 # define SCHEDULER_H
 
-# include "../codexion.h"
+# include "../coder/coder.h"
+# include "../dongle/dongle.h"
 
 /**
  * @brief Copy coders which are waiting into the buffer.
@@ -38,5 +39,11 @@ void	buffer_filter(t_coder **buffer,
  * @return coder index (buffer conserves the coder index) or -1 if None
  */
 int		fifo(t_coder **buffer, int nb_coders);
+
+/**
+ * @brief Look for the index of the coder which is the closer to burn out.
+ * @return coder index (buffer conserves the coder index) or -1 if None
+ */
+int		edf(t_coder **buffer, int nb_coders);
 
 #endif

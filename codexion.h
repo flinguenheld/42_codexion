@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 19:14:19 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/17 23:49:58 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/18 18:12:30 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ t_codexion		init_codexion(t_data *data);
  * @brief Cleanly close codexion
  */
 void			close_codexion(t_data *data, t_codexion codexion);
+
+/**
+ * @brief 
+ */
+void	run(t_codexion *codexion, t_data *data);
+
 
 // ----------------------------------------------------------------------------
 // ------------------------------------------------------------------ USAGE ---
