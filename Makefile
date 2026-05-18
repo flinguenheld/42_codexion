@@ -4,13 +4,14 @@ CFLAGS = -Wall -Wextra -Werror
 NAME = codexion
 
 SRC = main.c \
-		utils/utils.c \
-		coder/coder.c \
-		coder/coder_utils.c \
-		dongle/dongle.c \
-		parser/parser.c \
 		usage.c \
 		codexion.c \
+		utils/utils.c \
+		coder/coder.c \
+		dongle/dongle.c \
+		parser/parser.c \
+		coder/coder_utils.c \
+		scheduler/scheduler.c \
 
 all: $(NAME)
 
