@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 14:45:30 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/18 18:12:30 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/20 00:09:51 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_coder	*new_coder(t_data *data, pthread_mutex_t *mutex, int id)
 	new_coder = malloc(sizeof(t_coder));
 	new_coder->mutex = mutex;
 	new_coder->data = data;
-	new_coder->message = 0;
+	new_coder->message = NONE;
 	new_coder->id = id;
 	new_coder->coder_data = (t_coder_data){
 										.status = WAITING,

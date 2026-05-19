@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 14:45:30 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/18 18:12:30 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/20 00:09:51 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ enum e_coder_status
 
 enum e_coder_message
 {
+	NONE,
 	START,
 	KILL,
-	NONE,
 };
 
 typedef struct s_coder_data
@@ -51,12 +51,12 @@ typedef struct s_coder_data
 
 typedef struct s_coder
 {
-	int					id;
-	enum e_coder_message		message;
-	pthread_t			thread;
-	t_data				*data;
-	pthread_mutex_t		*mutex;
-	t_coder_data		coder_data;
+	int						id;
+	enum e_coder_message	message;
+	pthread_t				thread;
+	t_data					*data;
+	t_coder_data			coder_data;
+	pthread_mutex_t			*mutex;
 }	t_coder;
 
 // ----------------------------------------------------------------------------

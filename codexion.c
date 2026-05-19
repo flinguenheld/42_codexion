@@ -6,12 +6,13 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 13:27:03 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/18 18:12:30 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/20 00:09:51 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 #include "coder/coder.h"
+#include <stdio.h>
 
 t_codexion	init_codexion(t_data *data)
 {
@@ -54,9 +55,9 @@ void	run(t_codexion *codexion, t_data *data)
 {
 	int	index_to_start;
 
-	index_to_start = -1;
 	while (!are_all_coders_over(codexion->coders, data, codexion->mutex))
 	{
+		index_to_start = -1;
 		up_dongles(codexion->dongles, codexion->coders, data);
 		buffer_get_waiting_coders(codexion->coders, codexion->buffer,
 								codexion->mutex, data->nb_coders);
@@ -65,6 +66,9 @@ void	run(t_codexion *codexion, t_data *data)
 			index_to_start = edf(codexion->buffer, data->nb_coders);
 		else
 			index_to_start = fifo(codexion->buffer, data->nb_coders);
+
+		// printf("RUN -> TO START: %d\n", index_to_start);
+			
 		if (index_to_start >= 0)
 		{
 			pthread_mutex_lock(codexion->mutex);
