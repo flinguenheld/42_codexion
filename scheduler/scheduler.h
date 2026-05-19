@@ -18,11 +18,12 @@
 
 /**
  * @brief Copy coders which are waiting into the buffer.
- *        Coders which are not waiting are set to NONE.
+ *        Those which are not waiting are set to NONE.
  *        Preserve the amount of coders and their order.
  */
-void	buffer_get_waiting_cd(t_coder **coders,
+void	buffer_get_waiting_coders(t_coder **coders,
 			t_coder **buffer,
+			pthread_mutex_t *mutex,
 			int nb_coders);
 
 /**

@@ -40,14 +40,21 @@ static void	up_dongle(enum e_dongle_status *dongle, t_coder *cd_left,
 	released_time = data->time_compile + data->time_cooldown;
 	if (*dongle == BUSY)
 	{
-		if (cd_left->status != START && cd_right->status != START)
+		// TODO: Add mutex ------------------------------------------------------------------
+		// TODO: Add mutex ------------------------------------------------------------------
+		// TODO: Add mutex ------------------------------------------------------------------
+		// TODO: Add mutex ------------------------------------------------------------------
+
+		pthread_mutex_lock(cd_left->mutex);
+		if (cd_left->coder_data.status != STARTING && cd_right->coder_data.status != STARTING)
 		{
-			if (now_time >= cd_left->timestamp_last_comp + released_time
-				&& now_time >= cd_right->timestamp_last_comp + released_time)
+			if (now_time >= cd_left->coder_data.timestamp_last_comp + released_time
+				&& now_time >= cd_right->coder_data.timestamp_last_comp + released_time)
 			{
 				*dongle = AVAILABLE;
 			}
 		}
+		pthread_mutex_unlock(cd_left->mutex);
 	}
 }
 

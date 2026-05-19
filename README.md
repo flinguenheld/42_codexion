@@ -51,10 +51,10 @@ To display the usage message:
 ``` Bash
     ./codexion
 ```
-
-
-```C
-valgrind --leak-check=yes ./codexion 3 600 50 50 50 20 5 fifo
+Example to check memory leaks:
+<!-- valgrind --leak-check=yes ./codexion 3 600 50 50 50 20 5 fifo -->
+``` Bash
+valgrind --tool=helgrind ./codexion 3 600 50 50 50 20 5 fifo
 ```
 
 ##### 2 coders

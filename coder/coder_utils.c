@@ -22,33 +22,37 @@ static void	kill_all_coders(t_coder **coders, t_data *data)
 	index = 0;
 	while (index < data->nb_coders)
 	{
-		coders[index]->status = KILLED;
+		coders[index]->message = KILL;
 		index++;
 	}
 }
 
-char	are_all_coders_over(t_coder **coders, t_data *data)
+char	are_all_coders_over(t_coder **coders, t_data *data, pthread_mutex_t *mutex)
 {
 	int	index;
 	int	done;
 
 	index = 0;
 	done = 0;
+	pthread_mutex_lock(mutex);
 	while (index < data->nb_coders)
 	{
-		if (coders[index]->status == BURNOUT)
+		if (coders[index]->coder_data.status == BURNOUT)
 		{
 			kill_all_coders(coders, data);
+				pthread_mutex_unlock(mutex);
 			return (1);
 		}
-		if (coders[index]->remain <= 0)
+		if (coders[index]->coder_data.remain <= 0)
 			done++;
 		index++;
 	}
 	if (done == data->nb_coders)
 	{
 		kill_all_coders(coders, data);
+			pthread_mutex_unlock(mutex);
 		return (1);
 	}
+			pthread_mutex_unlock(mutex);
 	return (0);
 }

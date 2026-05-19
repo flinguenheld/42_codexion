@@ -55,11 +55,11 @@ void	run(t_codexion *codexion, t_data *data)
 	int	index_to_start;
 
 	index_to_start = -1;
-	while (!are_all_coders_over(codexion->coders, data))
+	while (!are_all_coders_over(codexion->coders, data, codexion->mutex))
 	{
 		up_dongles(codexion->dongles, codexion->coders, data);
-		buffer_get_waiting_cd(codexion->coders, codexion->buffer,
-			data->nb_coders);
+		buffer_get_waiting_coders(codexion->coders, codexion->buffer,
+								codexion->mutex, data->nb_coders);
 		buffer_filter(codexion->buffer, codexion->dongles, data->nb_coders);
 		if (data->scheduler == 'e')
 			index_to_start = edf(codexion->buffer, data->nb_coders);
@@ -68,7 +68,7 @@ void	run(t_codexion *codexion, t_data *data)
 		if (index_to_start >= 0)
 		{
 			pthread_mutex_lock(codexion->mutex);
-			codexion->coders[index_to_start]->status = START;
+			codexion->coders[index_to_start]->message = START;
 			pthread_mutex_unlock(codexion->mutex);
 			codexion->dongles[index_to_start] = BUSY;
 			codexion->dongles[get_overlapped_index(index_to_start - 1,

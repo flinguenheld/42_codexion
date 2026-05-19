@@ -13,19 +13,27 @@
 #include "scheduler.h"
 #include <stdio.h>
 
-void	buffer_get_waiting_cd(t_coder **coders, t_coder **buffer, int nb_coders)
+void	buffer_get_waiting_coders(t_coder **coders, t_coder **buffer,
+							pthread_mutex_t *mutex, int nb_coders)
 {
 	int		index;
 
 	index = 0;
+	// TODO: Add mutex -------------------------------------------------------------
+	// TODO: Add mutex -------------------------------------------------------------
+	// TODO: Add mutex -------------------------------------------------------------
+	// TODO: Add mutex -------------------------------------------------------------
+
+	pthread_mutex_lock(mutex);
 	while (index < nb_coders)
 	{
-		if (coders[index]->status == WAITING)
+		if (coders[index]->coder_data.status == WAITING)
 			buffer[index] = coders[index];
 		else
 			buffer[index] = NULL;
 		index++;
 	}
+	pthread_mutex_unlock(mutex);
 }
 
 void	buffer_filter(t_coder **buffer,
@@ -60,8 +68,8 @@ int	fifo(t_coder **buffer, int nb_coders)
 	{
 		if (buffer[index])
 		{
-			if (found < 0 || buffer[index]->timestamp_last_comp
-				< buffer[found]->timestamp_last_comp)
+			if (found < 0 || buffer[index]->coder_data.timestamp_last_comp
+				< buffer[found]->coder_data.timestamp_last_comp)
 				found = index;
 		}
 		index++;
@@ -80,8 +88,8 @@ int	edf(t_coder **buffer, int nb_coders)
 	{
 		if (buffer[index])
 		{
-			if (found < 0 || (buffer[index]->timestamp_last_comp
-				< buffer[found]->timestamp_last_comp))
+			if (found < 0 || (buffer[index]->coder_data.timestamp_last_comp
+				< buffer[found]->coder_data.timestamp_last_comp))
 				found = index;
 		}
 		index--;
