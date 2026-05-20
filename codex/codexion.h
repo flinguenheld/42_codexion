@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 19:14:19 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/20 15:09:14 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/20 15:36:52 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ typedef struct s_codexion
 	t_coder					**coders;
 	t_coder					**buffer;
 	enum e_dongle_status	*dongles;
-	pthread_mutex_t			*mutex;
+	pthread_mutex_t			*mutex_coders;
+	pthread_mutex_t			*mutex_stdout;
 }	t_codexion;
 
 // ----------------------------------------------------------------------------

@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/20 10:42:32 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/20 15:09:14 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/20 15:36:52 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	coder_process_print_status(t_coder_data *coder_data, t_coder *coder)
 {
 	int	time;
 
-	pthread_mutex_lock(coder->mutex);
+	pthread_mutex_lock(coder->mutex_stdout);
 	time = get_time() - coder->data->timestamp_start;
 	if (coder_data->status == COMPILING)
 	{
@@ -31,7 +31,7 @@ void	coder_process_print_status(t_coder_data *coder_data, t_coder *coder)
 		printf("%6d    C%-3d  is refactoring 🧼\n", time, coder->id);
 	else if (coder_data->status == BURNOUT)
 		printf("%6d    C%-3d  🔥 has burned out 🔥\n", time, coder->id);
-	pthread_mutex_unlock(coder->mutex);
+	pthread_mutex_unlock(coder->mutex_stdout);
 }
 
 void	coder_process_up_status(t_coder_data *coder_data,

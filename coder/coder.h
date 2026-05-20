@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 14:45:30 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/20 15:09:14 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/20 15:36:52 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_coder
 	t_data					*data;
 	t_coder_data			coder_data;
 	pthread_mutex_t			*mutex;
+	pthread_mutex_t			*mutex_stdout;
 }	t_coder;
 
 // ----------------------------------------------------------------------------
@@ -107,6 +108,9 @@ void	*coder_thread(void *c);
  * @brief Create and init a new coder.
  * @return A coder pointer to free
  */
-t_coder	*new_coder(t_data *data, pthread_mutex_t *mutex, int id);
+t_coder	*new_coder(t_data *data,
+			pthread_mutex_t *mutex,
+			pthread_mutex_t *mutex_stdout,
+			int id);
 
 #endif
