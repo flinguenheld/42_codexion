@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 14:45:30 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/20 00:09:51 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/20 15:09:14 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ enum e_coder_status
 	WAITING,
 	BURNOUT,
 	KILLED,
-	DONE, // USEFULL ???
 };
 
 enum e_coder_message
@@ -44,10 +43,10 @@ enum e_coder_message
 typedef struct s_coder_data
 {
 	enum e_coder_status	status;
-	int		remain;
-	long	timestamp;
-	long	timestamp_last_comp;
-} t_coder_data;
+	int					remain;
+	long				timestamp;
+	long				timestamp_last_comp;
+}	t_coder_data;
 
 typedef struct s_coder
 {
@@ -60,37 +59,54 @@ typedef struct s_coder
 }	t_coder;
 
 // ----------------------------------------------------------------------------
-// ----------------------------------------------------------------------------
+// ---------------------------------------------------------------- PROCESS ---
+// Perform the Compilation / Debugging / Refactoring simulations
+// They are just waiting times
+// Once launched, thoses functions allow the coder to change its state
+// according to the subject rules and the data times.
+// Print in stdout when its state changes.
+// From STARTING to WAITING up to DONE
 
 /**
- * @brief
+ * @brief Print the formated status with the print mutex.
+ */
+void	coder_process_print_status(t_coder_data *coder_data, t_coder *coder);
+
+/**
+ * @brief Up the coder data with the new status and call
+ *        the print process function.
+ */
+void	coder_process_up_status(t_coder_data *coder_data,
+			enum e_coder_status new_status,
+			t_coder *coder);
+
+/**
+ * @brief Simulate the process by checking the current status and the time.
+ *        If needed, call the coder_process_up_status function.
+ */
+void	coder_process_run(t_coder_data *coder_data, t_coder *coder);
+
+/**
+ * @brief Coder core function
+ *        Loops until the coder has been killed, burned out or finished all
+ *        of its compilations.
+ *
+ *        Clone the coder_data to minimise mutex use and merge them
+ *        to the coder when necessary (status change).
+ *
+ *        The main thread can send a 'message' to the thread to
+ *        start or kill it.
+ *        The message is stored in the t_coder as e_coder_message.
+ */
+void	*coder_thread(void *c);
+
+// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------ UTILS ---
+
+/**
+ * @brief Create and init a new coder.
+ * @return A coder pointer to free
  */
 t_coder	*new_coder(t_data *data, pthread_mutex_t *mutex, int id);
-
-/**
- * @brief
- */
-void	*coder_process(void *c);
-
-/**
- * @brief Loop in coders to check their status and their remaining.
- *        Kill all coders if one of them has burned out.
- * @return 1 if one has burned out or all coders have finished their work.
- */
-// char	are_all_coders_over(t_coder **coders, t_data *data);
-char	are_all_coders_over(t_coder **coders, t_data *data, pthread_mutex_t *mutex);
-
-// ----------------------------------------------------------------------------
-// ----------------------------------------------------------------------------
-
-/**
- * @brief
- */
-t_coder_data	clone_coder_data(t_coder *coder);
-
-/**
- * @brief
- */
-void			merge_coder_data(t_coder_data coder_data, t_coder *coder);
 
 #endif

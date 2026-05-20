@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 16:27:36 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/17 23:49:59 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/20 15:09:15 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,22 @@ enum e_dongle_status
 };
 
 /**
- * @brief Since dongles are in a circle, the dongle index max + 1 has to be 0.
- * @return The checked index
- */
-int						overlap_dongle_index(int index, long *dongles,
-							t_data *data);
-
-/**
- * @brief Malloc an array of longs and init all values to -1.
+ * @brief Malloc an array of dongle_status enum and init
+ *        all values to AVAILABLE.
+ *        There are as many coders than dongles (their index is important).
  * @return A brand new array to free
  */
 enum e_dongle_status	*init_dongles(t_data *data);
 
 /**
- * @brief 
- * @return 
+ * @brief Loop in dongles to update their status according to coders.
+ *        A dongle is surrounded by two coders
+ *        So get them and check their status and their last compilation time.
+ *        (uses a mutex to lock coders)
  */
 void					up_dongles(enum e_dongle_status *dongles,
-							t_coder **coders, t_data *data);
+							t_coder **coders,
+							t_data *data,
+							pthread_mutex_t *mutex);
 
 #endif
