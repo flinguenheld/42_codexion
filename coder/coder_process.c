@@ -12,25 +12,47 @@
 
 #include "coder.h"
 
+// static void	print_header(t_coder_data *coder_data, t_coder *coder)
+// {
+// 	int	time;
+// 	int	blah;
+
+// 	blah = coder->id;
+// 	time = (get_time() - coder->data->timestamp_start) / 1000;
+
+// 	printf("%6d    C%-3d  ", time, coder->id);
+// 	while (blah)
+// 		printf(" ");
+
+	
+	
+// }
+
 void	coder_process_print_status(t_coder_data *coder_data, t_coder *coder)
 {
 	int	time;
 
 	pthread_mutex_lock(coder->mutex_stdout);
-	time = get_time() - coder->data->timestamp_start;
+	time = (get_time() - coder->data->timestamp_start) / 1000;
 	if (coder_data->status == COMPILING)
 	{
-		printf("%6d    C%-3d  has taken a dongle\n", time, coder->id);
-		printf("%6d    C%-3d  has taken a dongle\n", time, coder->id);
-		printf("%6d    C%-3d  is compiling (%d remain) 🤖\n", time, coder->id,
+		printf("%6d    C%-3d  ╭──▶ has taken a dongle\n", time, coder->id);
+		printf("%6d    C%-3d  ╰──▶ has taken a dongle\n", time, coder->id);
+		printf("%6d    C%-3d  is compiling (remain %d) 🤖\n", time, coder->id,
 			coder_data->remain - 1);
 	}
+	else if (coder_data->remain == 0)
+		printf("%6d    C%-3d  ✅️ done ✅️\n", time, coder->id);
 	else if (coder_data->status == DEBUGGING)
 		printf("%6d    C%-3d  is debugging 🪲\n", time, coder->id);
 	else if (coder_data->status == REFACTORING)
 		printf("%6d    C%-3d  is refactoring 🧼\n", time, coder->id);
+	else if (coder_data->status == WAITING)
+		printf("%6d    C%-3d  is waiting 💤\n", time, coder->id);
 	else if (coder_data->status == BURNOUT)
 		printf("%6d    C%-3d  🔥 has burned out 🔥\n", time, coder->id);
+	else if (coder_data->status == KILLED)
+		printf("%6d    C%-3d  💀 killed 💀\n", time, coder->id);
 	pthread_mutex_unlock(coder->mutex_stdout);
 }
 
@@ -55,7 +77,9 @@ void	coder_process_run(t_coder_data *coder_data, t_coder *coder)
 	int	elapsed;
 
 	elapsed = get_time() - coder_data->timestamp;
-	if (coder_data->status == STARTING)
+	if (coder_data->status == KILLED)
+		coder_process_print_status(coder_data, coder);
+	else if (coder_data->status == STARTING)
 		coder_process_up_status(coder_data, COMPILING, coder);
 	else if (coder_data->status == COMPILING
 		&& elapsed > coder->data->time_compile)

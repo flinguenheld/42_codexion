@@ -19,7 +19,7 @@
 
 /**
  * @brief Get the current time whit the gettimeofday function.
- * @return time in milliseconds
+ * @return time in microseconds
  */
 long	get_time(void);
 

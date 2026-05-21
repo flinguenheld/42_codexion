@@ -26,7 +26,7 @@ debug: all
 	./$(NAME) 4 600 50 50 50 2 150 fifo
 
 test_fifo: all
-	./$(NAME) 20 20 150 50 50 5 10 fifo
+	./$(NAME) 4 500 150 50 50 3 1 fifo
 
 test_edf: all
 	./$(NAME) 200 600 150 50 50 10 10 edf

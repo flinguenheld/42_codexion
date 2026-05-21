@@ -12,6 +12,20 @@
 
 #include "parser.h"
 
+static int	to_long(long *to, char *value, char *explanation)
+{
+	int	numeric;
+
+	numeric = atoi(value);
+	if (numeric >= 1)
+	{
+		*to = numeric * 1000;
+		return (0);
+	}
+	fprintf(stderr, "%s -> Incorrect value '%s'.\n", explanation, value);
+	return (1);
+}
+
 static int	to_int(int *to, char *value, char *explanation)
 {
 	int	numeric;
@@ -34,12 +48,12 @@ char	parse(int argc, char **argv, t_data *data)
 	if (argc != 9)
 		return (9);
 	fail += to_int(&data->nb_coders, argv[1], "Number of coders");
-	fail += to_int(&data->time_burnout, argv[2], "Time to burnout");
-	fail += to_int(&data->time_compile, argv[3], "Time to compile");
-	fail += to_int(&data->time_debug, argv[4], "Time to debug");
-	fail += to_int(&data->time_refact, argv[5], "Time to refactor");
+	fail += to_long(&data->time_burnout, argv[2], "Time to burnout");
+	fail += to_long(&data->time_compile, argv[3], "Time to compile");
+	fail += to_long(&data->time_debug, argv[4], "Time to debug");
+	fail += to_long(&data->time_refact, argv[5], "Time to refactor");
 	fail += to_int(&data->nb_to_do, argv[6], "Number of compiles required");
-	fail += to_int(&data->time_cooldown, argv[7], "Dongle cooldown");
+	fail += to_long(&data->time_cooldown, argv[7], "Dongle cooldown");
 	if (strlen(argv[8]) == 4 && strcmp(argv[8], "fifo") == 0)
 		data->scheduler = 'f';
 	else if (strlen(argv[8]) == 3 && strcmp(argv[8], "edf") == 0)

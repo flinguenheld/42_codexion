@@ -17,12 +17,10 @@ char	are_all_coders_done(t_coder **coders,
 							pthread_mutex_t *mutex)
 {
 	int		index;
-	int		done;
 	char	result;
 
-	result = 0;
+	result = 1;
 	index = 0;
-	done = 0;
 	pthread_mutex_lock(mutex);
 	while (index < data->nb_coders)
 	{
@@ -31,13 +29,14 @@ char	are_all_coders_done(t_coder **coders,
 			result = 2;
 			break ;
 		}
-		if (coders[index]->coder_data.remain <= 0)
-			done++;
+		if (coders[index]->coder_data.remain > 0)
+		{
+			result = 0;
+			break ;
+		}
 		index++;
 	}
 	pthread_mutex_unlock(mutex);
-	if (done == data->nb_coders)
-		result = 1;
 	return (result);
 }
 

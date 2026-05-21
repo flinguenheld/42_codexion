@@ -81,7 +81,7 @@ void	*coder_thread(void *c)
 				break ;
 			previous = coder_data;
 		}
-		usleep(800);
+		usleep(100);
 	}
 	return (NULL);
 }

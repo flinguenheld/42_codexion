@@ -78,7 +78,7 @@ void	run(t_codexion *codexion, t_data *data)
 		{
 			start_coder(codexion, data, index_to_start);
 		}
-		usleep(10);
+		usleep(50);
 	}
 }
 

@@ -18,13 +18,13 @@
 typedef struct s_data
 {
 	char			scheduler;
-	int				time_debug;
-	int				time_burnout;
-	int				time_compile;
-	int				time_refact;
-	int				time_cooldown;
 	int				nb_to_do;
 	int				nb_coders;
+	long			time_debug;
+	long			time_burnout;
+	long			time_compile;
+	long			time_refact;
+	long			time_cooldown;
 	long			timestamp_start;
 }	t_data;
 
