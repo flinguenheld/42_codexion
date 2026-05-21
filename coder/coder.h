@@ -6,13 +6,14 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 14:45:30 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/21 22:37:27 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/22 01:13:53 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CODER_H
 # define CODER_H
 
+# include "../dongle/dongle.h"
 # include "../utils/utils.h"
 # include "../mutex/mutex.h"
 # include "../data/data.h"
@@ -32,6 +33,7 @@ enum e_coder_status
 	WAITING,
 	BURNOUT,
 	KILLED,
+	DONE,
 };
 
 enum e_coder_message
@@ -45,26 +47,27 @@ typedef struct s_coder_data
 {
 	enum e_coder_status	status;
 	int					remain;
-	long				timestamp;
 	long				timestamp_last_comp;
 }	t_coder_data;
 
 typedef struct s_coder_dongles
 {
-	char			*left;
-	char			*right;
-	pthread_mutex_t	*mutex;
+	enum e_dongle_status	*left;
+	enum e_dongle_status	*right;
+	pthread_mutex_t			*mutex;
 }	t_coder_dongles;
 
 typedef struct s_coder
 {
 	int						id;
 	enum e_coder_message	message;
-	t_coder_dongles			dongles;
-	pthread_t				thread;
 	t_data					*data;
-	t_coder_data			coder_data;
+	pthread_t				thread;
+	t_coder_dongles			dongles;
 	t_mutexes				mutexes;
+	t_coder_data			coder_data;
+	long					timestamp_process;
+	long					timestamp_release_dongles;
 }	t_coder;
 
 // ----------------------------------------------------------------------------
@@ -124,8 +127,8 @@ t_coder	*new_coder(t_data *data,
  * @brief Init the dongles and the mutex in coder.
  */
 void	coder_attach_dongles(t_coder *coder,
-			char	*dongle_left,
-			char	*dongle_right,
+			enum e_dongle_status *dongle_left,
+			enum e_dongle_status *dongle_right,
 			pthread_mutex_t *mutex);
 
 #endif

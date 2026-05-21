@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 13:27:03 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/21 22:37:27 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/22 01:13:53 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,21 @@ static int	get_next_coder_to_start(t_codexion *codexion, t_data *data)
 }
 
 /**
- * @brief Send a message to the coder to start (using mutex)
- *        Update the associated dongle to BUSY
+ * @brief Send a message to the coder to start (using coder mutex)
+ *        Update the associated dongle to BUSY (using dongle mutex)
  *
  *        (no check on index_to_start)
  */
 static void	start_coder(t_codexion *codexion, t_data *data, int index_to_start)
 {
-	pthread_mutex_lock(codexion->mutexes.coders);
+	pthread_mutex_lock(codexion->mutexes.message);
 	codexion->coders[index_to_start]->message = START;
-	pthread_mutex_unlock(codexion->mutexes.coders);
+	pthread_mutex_unlock(codexion->mutexes.message);
+	pthread_mutex_lock(codexion->mutexes.dongles);
 	codexion->dongles[index_to_start]++;
 	codexion->dongles[get_overlapped_index(index_to_start - 1,
 			data->nb_coders)]++;
+	pthread_mutex_unlock(codexion->mutexes.dongles);
 }
 
 void	run(t_codexion *codexion, t_data *data)
@@ -64,7 +66,7 @@ void	run(t_codexion *codexion, t_data *data)
 		{
 			if (status == 2)
 				kill_all_coders(codexion->coders,
-					data, codexion->mutexes.coders);
+					data, codexion->mutexes.message);
 			break ;
 		}
 		index_to_start = get_next_coder_to_start(codexion, data);

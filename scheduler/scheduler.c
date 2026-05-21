@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 10:19:48 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/21 21:41:56 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/22 01:13:53 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	buffer_get_waiting_coders(t_coder **coders,
 }
 
 void	buffer_filter_with_dongles(t_coder **buffer,
-				char *dongles,
+				enum e_dongle_status *dongles,
 				pthread_mutex_t *mutex,
 				int nb_coders)
 {

@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 14:45:30 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/21 21:41:56 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/22 01:13:53 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ void	*coder_thread(void *c)
 		if (memcmp(&previous, &coder_data, sizeof(t_coder_data)) != 0)
 		{
 			merge_coder_data(coder_data, coder);
-			if (coder_data.remain == 0)
-				break ;
-			if (coder_data.status == BURNOUT || coder_data.status == KILLED)
-				break ;
 			previous = coder_data;
 		}
+		if (coder_data.status == DONE && coder->timestamp_release_dongles <= 0)
+			break ;
+		if (coder_data.status == BURNOUT || coder_data.status == KILLED)
+			break ;
 		usleep(2);
 	}
 	return (NULL);
