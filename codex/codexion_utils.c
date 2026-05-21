@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/20 12:06:46 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/20 15:09:14 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/21 21:41:56 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ char	are_all_coders_done(t_coder **coders,
 			break ;
 		}
 		if (coders[index]->coder_data.remain > 0)
-		{
 			result = 0;
-			break ;
-		}
 		index++;
 	}
 	pthread_mutex_unlock(mutex);

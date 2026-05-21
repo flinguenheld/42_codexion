@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 14:45:30 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/20 15:09:15 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/21 21:41:56 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  */
 static void	read_message(t_coder *coder, t_coder_data *coder_data)
 {
-	pthread_mutex_lock(coder->mutex);
+	pthread_mutex_lock(coder->mutexes.message);
 	if (coder->message == KILL)
 	{
 		coder->message = NONE;
@@ -31,7 +31,7 @@ static void	read_message(t_coder *coder, t_coder_data *coder_data)
 		coder->message = NONE;
 		coder_data->status = STARTING;
 	}
-	pthread_mutex_unlock(coder->mutex);
+	pthread_mutex_unlock(coder->mutexes.message);
 }
 
 /**
@@ -43,9 +43,9 @@ static t_coder_data	clone_coder_data(t_coder *coder)
 {
 	t_coder_data	cloned_data;
 
-	pthread_mutex_lock(coder->mutex);
+	pthread_mutex_lock(coder->mutexes.coders);
 	cloned_data = coder->coder_data;
-	pthread_mutex_unlock(coder->mutex);
+	pthread_mutex_unlock(coder->mutexes.coders);
 	return (cloned_data);
 }
 
@@ -54,9 +54,9 @@ static t_coder_data	clone_coder_data(t_coder *coder)
  */
 static void	merge_coder_data(t_coder_data coder_data, t_coder *coder)
 {
-	pthread_mutex_lock(coder->mutex);
+	pthread_mutex_lock(coder->mutexes.coders);
 	coder->coder_data = coder_data;
-	pthread_mutex_unlock(coder->mutex);
+	pthread_mutex_unlock(coder->mutexes.coders);
 }
 
 void	*coder_thread(void *c)
@@ -81,6 +81,7 @@ void	*coder_thread(void *c)
 				break ;
 			previous = coder_data;
 		}
+		usleep(2);
 	}
 	return (NULL);
 }

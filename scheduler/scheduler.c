@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 10:19:48 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/20 15:09:14 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/21 21:41:56 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,26 @@ void	buffer_get_waiting_coders(t_coder **coders,
 }
 
 void	buffer_filter_with_dongles(t_coder **buffer,
-				enum e_dongle_status *dongles,
+				char *dongles,
+				pthread_mutex_t *mutex,
 				int nb_coders)
 {
 	int		index;
 	int		index_previous;
 
 	index = 0;
+	pthread_mutex_lock(mutex);
 	while (index < nb_coders)
 	{
 		if (buffer[index])
 		{
 			index_previous = get_overlapped_index(index - 1, nb_coders);
-			if (dongles[index_previous] == BUSY || dongles[index] == BUSY)
+			if (dongles[index_previous] != 0 || dongles[index] != 0)
 				buffer[index] = NULL;
 		}
 		index++;
 	}
+	pthread_mutex_unlock(mutex);
 }
 
 // ----------------------------------------------------------------------------

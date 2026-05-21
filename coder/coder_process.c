@@ -6,33 +6,17 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/20 10:42:32 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/20 15:36:52 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/21 21:41:56 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "coder.h"
 
-// static void	print_header(t_coder_data *coder_data, t_coder *coder)
-// {
-// 	int	time;
-// 	int	blah;
-
-// 	blah = coder->id;
-// 	time = (get_time() - coder->data->timestamp_start) / 1000;
-
-// 	printf("%6d    C%-3d  ", time, coder->id);
-// 	while (blah)
-// 		printf(" ");
-
-	
-	
-// }
-
 void	coder_process_print_status(t_coder_data *coder_data, t_coder *coder)
 {
 	int	time;
 
-	pthread_mutex_lock(coder->mutex_stdout);
+	pthread_mutex_lock(coder->mutexes.stdout);
 	time = (get_time() - coder->data->timestamp_start) / 1000;
 	if (coder_data->status == COMPILING)
 	{
@@ -53,7 +37,15 @@ void	coder_process_print_status(t_coder_data *coder_data, t_coder *coder)
 		printf("%6d    C%-3d  🔥 has burned out 🔥\n", time, coder->id);
 	else if (coder_data->status == KILLED)
 		printf("%6d    C%-3d  💀 killed 💀\n", time, coder->id);
-	pthread_mutex_unlock(coder->mutex_stdout);
+	pthread_mutex_unlock(coder->mutexes.stdout);
+}
+
+static void release_dongles(t_coder *coder)
+{
+	pthread_mutex_lock(coder->mutexes.dongles);
+	(*coder->dongles.left)--;
+	(*coder->dongles.right)--;
+	pthread_mutex_unlock(coder->mutexes.dongles);
 }
 
 void	coder_process_up_status(t_coder_data *coder_data,
@@ -64,6 +56,8 @@ void	coder_process_up_status(t_coder_data *coder_data,
 	coder_data->timestamp = get_time();
 	if (new_status == COMPILING)
 		coder_data->timestamp_last_comp = get_time();
+	else if (new_status == DEBUGGING)
+		release_dongles(coder);
 	else if (new_status == WAITING)
 	{
 		coder_data->timestamp = get_time();

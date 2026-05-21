@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 19:14:19 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/20 15:36:52 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/21 21:41:56 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@
  */
 typedef struct s_codexion
 {
-	t_coder					**coders;
-	t_coder					**buffer;
-	enum e_dongle_status	*dongles;
-	t_mutexes				mutexes;
+	t_coder		**coders;
+	t_coder		**buffer;
+	char		*dongles;
+	t_mutexes	mutexes;
 }	t_codexion;
 
 // ----------------------------------------------------------------------------
