@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/21 17:00:52 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/21 21:41:56 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/21 22:37:27 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_mutexes	init_mutexes(void)
 {
-	t_mutexes mutexes;
+	t_mutexes	mutexes;
 
 	mutexes.coders = malloc(sizeof(pthread_mutex_t));
 	mutexes.stdout = malloc(sizeof(pthread_mutex_t));
@@ -24,7 +24,7 @@ t_mutexes	init_mutexes(void)
 	pthread_mutex_init(mutexes.stdout, NULL);
 	pthread_mutex_init(mutexes.message, NULL);
 	pthread_mutex_init(mutexes.dongles, NULL);
-	return mutexes;
+	return (mutexes);
 }
 
 void	close_mutexes(t_mutexes *mutexes)

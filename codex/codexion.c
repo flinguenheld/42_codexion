@@ -6,30 +6,20 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 13:27:03 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/21 21:41:56 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/21 22:37:27 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-#include <stdio.h>
-#include <unistd.h>
-
-// ----------------------------------------------------------------------------
-// ------------------------------------------------------------------- CORE ---
 
 /**
- * @brief Update dongles according to their coder's status.
- *        Then update the buffer to only keep waiting coders.
- *        Filter again buffer to only keep coder with available dongles.
- *        Get one coder according to the scheduler choice (fifo or edf).
+ * @brief Update buffers to only keep waiting coders.
+ *        Filter again to only keep coders with available dongles.
+ *        Then get one coder according to the scheduler choice (fifo or edf).
  * @return coder's index or -1 if no one is available.
  */
 static int	get_next_coder_to_start(t_codexion *codexion, t_data *data)
 {
-	// up_dongles(codexion->dongles,
-	// 	codexion->coders,
-	// 	data,
-	// 	codexion->mutex_coders);
 	buffer_get_waiting_coders(codexion->coders,
 		codexion->buffer,
 		codexion->mutexes.coders,
@@ -84,59 +74,4 @@ void	run(t_codexion *codexion, t_data *data)
 		}
 		usleep(2);
 	}
-}
-
-// ----------------------------------------------------------------------------
-// ----------------------------------------------------------- INIT / CLOSE ---
-
-/**
- * @brief Init a coder_dongles which will allow the coder to set its coders
- *        as busy.
- */
-static t_coder_dongles	connect_dongles(t_codexion *codex,
-			int index,
-			int nb_coders)
-{
-	t_coder_dongles	dongles;
-
-	dongles.left = &codex->dongles[get_overlapped_index(index - 1, nb_coders)];
-	dongles.right = &codex->dongles[index];
-	dongles.mutex = codex->mutexes.dongles;
-	return (dongles);
-}
-
-t_codexion	init_codexion(t_data *data)
-{
-	t_codexion	codexion;
-	t_coder		*new_one;
-	int			index;
-
-	codexion.coders = malloc(data->nb_coders * sizeof(t_coder *));
-	codexion.buffer = malloc(data->nb_coders * sizeof(t_coder *));
-	codexion.mutexes = init_mutexes();
-	codexion.dongles = init_dongles(data);
-	index = 0;
-	while (index < data->nb_coders)
-	{
-		new_one = new_coder(data, codexion.mutexes, index + 1);
-		new_one->dongles = connect_dongles(&codexion, index, data->nb_coders);
-		pthread_create(&new_one->thread, NULL, coder_thread, (void *)new_one);
-		codexion.coders[index] = new_one;
-		index++;
-	}
-	return (codexion);
-}
-
-void	close_codexion(t_data *data, t_codexion codexion)
-{
-	while (data->nb_coders > 0)
-	{
-		pthread_join(codexion.coders[data->nb_coders - 1]->thread, NULL);
-		free(codexion.coders[data->nb_coders - 1]);
-		data->nb_coders--;
-	}
-	close_mutexes(&codexion.mutexes);
-	free(codexion.coders);
-	free(codexion.buffer);
-	free(codexion.dongles);
 }

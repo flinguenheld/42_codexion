@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 14:45:30 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/21 21:41:56 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/21 22:37:27 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,15 +117,15 @@ void	*coder_thread(void *c);
  * @return A coder pointer to free
  */
 t_coder	*new_coder(t_data *data,
-		t_mutexes mutexes,
-		int id);
+			t_mutexes mutexes,
+			int id);
 
 /**
  * @brief Init the dongles and the mutex in coder.
  */
 void	coder_attach_dongles(t_coder *coder,
-		char	*dongle_left,
-		char	*dongle_right,
-		pthread_mutex_t *mutex);
+			char	*dongle_left,
+			char	*dongle_right,
+			pthread_mutex_t *mutex);
 
 #endif

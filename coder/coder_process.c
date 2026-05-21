@@ -6,7 +6,7 @@
 /*   By: flinguen <florent@linguenheld.net>          +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/20 10:42:32 by flinguen          #+#    #+#             */
-/*   Updated: 2026/05/21 21:41:56 by flinguen         ###   ########.fr       */
+/*   Updated: 2026/05/21 22:37:27 by flinguen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ void	coder_process_print_status(t_coder_data *coder_data, t_coder *coder)
 	pthread_mutex_unlock(coder->mutexes.stdout);
 }
 
-static void release_dongles(t_coder *coder)
+/**
+ * @brief Decrease dongles left & right (using mutex)
+ */
+static void	release_dongles(t_coder *coder)
 {
 	pthread_mutex_lock(coder->mutexes.dongles);
 	(*coder->dongles.left)--;
