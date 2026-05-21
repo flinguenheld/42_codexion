@@ -14,6 +14,7 @@
 # define CODEXION_H
 
 # include "../data/data.h"
+# include "../mutex/mutex.h"
 # include "../coder/coder.h"
 # include "../parser/parser.h"
 # include "../dongle/dongle.h"
@@ -31,8 +32,7 @@ typedef struct s_codexion
 	t_coder					**coders;
 	t_coder					**buffer;
 	enum e_dongle_status	*dongles;
-	pthread_mutex_t			*mutex_coders;
-	pthread_mutex_t			*mutex_stdout;
+	t_mutexes				mutexes;
 }	t_codexion;
 
 // ----------------------------------------------------------------------------

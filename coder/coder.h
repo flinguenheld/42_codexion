@@ -48,10 +48,18 @@ typedef struct s_coder_data
 	long				timestamp_last_comp;
 }	t_coder_data;
 
+typedef struct s_coder_dongles
+{
+	char			*left;
+	char			*right;
+	pthread_mutex_t	*mutex;
+}	t_coder_dongles;
+
 typedef struct s_coder
 {
 	int						id;
 	enum e_coder_message	message;
+	t_coder_dongles			dongles;
 	pthread_t				thread;
 	t_data					*data;
 	t_coder_data			coder_data;
@@ -102,7 +110,7 @@ void	coder_process_run(t_coder_data *coder_data, t_coder *coder);
 void	*coder_thread(void *c);
 
 // ----------------------------------------------------------------------------
-// ------------------------------------------------------------------ UTILS ---
+// ------------------------------------------------------------------## NEW ---
 
 /**
  * @brief Create and init a new coder.
@@ -112,5 +120,13 @@ t_coder	*new_coder(t_data *data,
 			pthread_mutex_t *mutex,
 			pthread_mutex_t *mutex_stdout,
 			int id);
+
+/**
+ * @brief Init the dongles and the mutex in coder.
+ */
+void	coder_attach_dongles(t_coder *coder,
+		char	*dongle_left,
+		char	*dongle_right,
+		pthread_mutex_t *mutex);
 
 #endif

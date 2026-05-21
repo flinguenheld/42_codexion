@@ -33,3 +33,13 @@ t_coder	*new_coder(t_data *data,
 	};
 	return (new_coder);
 }
+
+void	coder_attach_dongles(t_coder *coder,
+		char	*dongle_left,
+		char	*dongle_right,
+		pthread_mutex_t *mutex)
+{
+	coder->dongles.left = dongle_left;
+	coder->dongles.right = dongle_right;
+	coder->dongles.mutex = mutex;
+}

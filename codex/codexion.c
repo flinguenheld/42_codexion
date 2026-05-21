@@ -24,13 +24,13 @@
  */
 static int	get_next_coder_to_start(t_codexion *codexion, t_data *data)
 {
-	up_dongles(codexion->dongles,
-		codexion->coders,
-		data,
-		codexion->mutex_coders);
+	// up_dongles(codexion->dongles,
+	// 	codexion->coders,
+	// 	data,
+	// 	codexion->mutex_coders);
 	buffer_get_waiting_coders(codexion->coders,
 		codexion->buffer,
-		codexion->mutex_coders,
+		codexion->mutexes.coders,
 		data->nb_coders);
 	buffer_filter_with_dongles(codexion->buffer,
 		codexion->dongles,
@@ -49,9 +49,9 @@ static int	get_next_coder_to_start(t_codexion *codexion, t_data *data)
  */
 static void	start_coder(t_codexion *codexion, t_data *data, int index_to_start)
 {
-	pthread_mutex_lock(codexion->mutex_coders);
+	pthread_mutex_lock(codexion->mutexes.coders);
 	codexion->coders[index_to_start]->message = START;
-	pthread_mutex_unlock(codexion->mutex_coders);
+	pthread_mutex_unlock(codexion->mutexes.coders);
 	codexion->dongles[index_to_start] = BUSY;
 	codexion->dongles[get_overlapped_index(index_to_start - 1,
 			data->nb_coders)] = BUSY;
@@ -66,11 +66,11 @@ void	run(t_codexion *codexion, t_data *data)
 	{
 		status = are_all_coders_done(codexion->coders,
 				data,
-				codexion->mutex_coders);
+				codexion->mutexes.coders);
 		if (status > 0)
 		{
 			if (status == 2)
-				kill_all_coders(codexion->coders, data, codexion->mutex_coders);
+				kill_all_coders(codexion->coders, data, codexion->mutexes.coders);
 			break ;
 		}
 		index_to_start = get_next_coder_to_start(codexion, data);
@@ -78,7 +78,6 @@ void	run(t_codexion *codexion, t_data *data)
 		{
 			start_coder(codexion, data, index_to_start);
 		}
-		usleep(50);
 	}
 }
 
@@ -94,16 +93,13 @@ t_codexion	init_codexion(t_data *data)
 	codexion.coders = malloc(data->nb_coders * sizeof(t_coder *));
 	codexion.buffer = malloc(data->nb_coders * sizeof(t_coder *));
 	codexion.dongles = init_dongles(data);
-	codexion.mutex_coders = malloc(sizeof(pthread_mutex_t));
-	codexion.mutex_stdout = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(codexion.mutex_coders, NULL);
-	pthread_mutex_init(codexion.mutex_stdout, NULL);
+	codexion.mutexes = init_mutexes();
 	index = 0;
 	while (index < data->nb_coders)
 	{
 		new_one = new_coder(data,
-				codexion.mutex_coders,
-				codexion.mutex_stdout,
+				codexion.mutexes.coders,
+				codexion.mutexes.stdout,
 				index + 1);
 		pthread_create(&new_one->thread, NULL, coder_thread, (void *)new_one);
 		codexion.coders[index] = new_one;
@@ -120,10 +116,7 @@ void	close_codexion(t_data *data, t_codexion codexion)
 		free(codexion.coders[data->nb_coders - 1]);
 		data->nb_coders--;
 	}
-	pthread_mutex_destroy(codexion.mutex_coders);
-	pthread_mutex_destroy(codexion.mutex_stdout);
-	free(codexion.mutex_coders);
-	free(codexion.mutex_stdout);
+	close_mutexes(&codexion.mutexes);
 	free(codexion.coders);
 	free(codexion.buffer);
 	free(codexion.dongles);

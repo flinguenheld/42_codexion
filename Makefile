@@ -7,6 +7,7 @@ SRC = main.c \
 		codex/codexion.c \
 		codex/codexion_utils.c \
 		utils/utils.c \
+		mutex/mutex.c \
 		coder/coder.c \
 		dongle/dongle.c \
 		parser/parser.c \
