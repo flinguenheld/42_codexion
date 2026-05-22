@@ -77,11 +77,11 @@ void	*coder_thread(void *c)
 			merge_coder_data(coder_data, coder);
 			previous = coder_data;
 		}
-		if (coder_data.status == DONE && coder->timestamp_release_dongles <= 0)
-			break ;
 		if (coder_data.status == BURNOUT || coder_data.status == KILLED)
 			break ;
-		usleep(2);
+		if (coder_data.status == DONE && coder->timestamp_release_dongles <= 0)
+			break ;
+		usleep(11);
 	}
 	return (NULL);
 }

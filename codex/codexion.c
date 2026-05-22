@@ -74,6 +74,6 @@ void	run(t_codexion *codexion, t_data *data)
 		{
 			start_coder(codexion, data, index_to_start);
 		}
-		usleep(2);
+		usleep(421);
 	}
 }

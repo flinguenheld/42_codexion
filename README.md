@@ -142,7 +142,7 @@ we can predict the evolution which should be the same for fifo or edf:
 ##### 5 coders
 With an odd amount of coders, the more complicated:  
 ``` Bash
-    ./codexion 5 400 100 150 200 5 100 fifo
+    ./codexion 5 450 100 150 200 5 100 fifo
 ```
 <div align="center">
     <img src="./images/codexion_5_coders.excalidraw.png">
