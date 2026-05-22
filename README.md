@@ -70,18 +70,19 @@ Then, a [struc codexion](https://github.com/flinguenheld/42_codexion/blob/master
 - an array of coders
 - a buffer (which is another array of coders)
 - an array of dongles (dongles are represented by their [status](https://github.com/flinguenheld/42_codexion/blob/master/dongle/dongle.h#L19) either BUSY or AVAILABLE)
-- a mutex used for coders
-- a mutex used for stdout
+- a [struct of mutexes]()
 
 Coders are made of two structs:
 - [t_coder](https://github.com/flinguenheld/42_codexion/blob/master/coder/coder.h#L51) used to store:
     - read-only data (like the thread id or mutexes)
+    - used only by coders (like timestamps)
     - messages (to send an order to the coder)
     - coder_data
+    - mutexes
 - [t_coder_data](https://github.com/flinguenheld/42_codexion/blob/master/coder/coder.h#L43) used in the thread to simulate its works
     - status
     - amount of remain jobs
-    - timestamps
+    - last compilation timestamp
 
 This division allows threads to only update their coder_data when there are any update (new status for instance).  
 It can merge the new coder_data in coder and avoid using the mutex on each data read.  
@@ -95,13 +96,15 @@ Once done, it will select the best according to the fifo or edf logic:
 And because all coders have the same timers, the first coder which has reclaimed a dongle is mandatorily the coder which is the closiest to the burnout.  
 So yes, they do the same thing -_-'.  
 
-After having selected the coder, the message in the t_coder struct is set to START.
+After having selected the coder, the message in the selected t_coder struct is set to START.
 - The [main coder loop](https://github.com/flinguenheld/42_codexion/blob/master/coder/coder.c#L62) will catch the message and start its process.
 - And the associated dongles are set to BUSY.
 
+Dongles are [relased by the coder]() once the compilation is over and the cooldown time has been reached.  
+
 ### Thread synchronization mechanisms
 
-The synchronisation is perfomed thanks to two mutexes to prevent data races on stdout and the coder array.  
+The synchronisation is perfomed thanks to [four mutexes]() to prevent data races on stdout and the coder array.  
 The [core loop](https://github.com/flinguenheld/42_codexion/blob/master/codex/codexion_utils.c#L15) checks regularily the coders status to catch any burn out.  
 And it can [send](https://github.com/flinguenheld/42_codexion/blob/master/codex/codexion.c#L50) an order to the coder to launch or kill them.  
 The [message is read](https://github.com/flinguenheld/42_codexion/blob/master/coder/coder.c#L21) in the main coder loop.  
