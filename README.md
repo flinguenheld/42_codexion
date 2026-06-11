@@ -25,7 +25,7 @@ So the program has to prioritise coders with their dongles.
 
 Clone the repository.
 ``` Bash
-    git clone --recursive https://github.com/flinguenheld/42_push_swap
+    git clone --recursive https://github.com/flinguenheld/42_codexion
 ```
 
 Then you can use the Makefile to compile.
